@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 
 import {
     Container,
+    PlayGameText,
     GamePlay,
     Button,
     Logo,
@@ -17,39 +18,42 @@ import { Game } from '../Game'
 import { Main } from '../Main'
 
 const Home = () => {
-	const { inGame, handleGamePlay } = useContext(UserContext);
+	const { inGame, handleGamePlay, onMenu, setOnMenu, isLoged } = useContext(UserContext);
 
   return (
     <Container >
-			
-    <GamePlay inGame={inGame}>
+    
+      <GamePlay inGame={inGame} onMenu={onMenu} onClick={() => isLoged ? null :  setOnMenu(onMenu ? !onMenu : true)}>
 
-      <Button disabled={!inGame} inGame={inGame} onClick={() => handleGamePlay("Rock")}>
-        <Logo src={rock}  />
-      </Button>
+        <PlayGameText>
+          { isLoged ? null : onMenu ? "SAIR" : "JOGAR"}
+        </PlayGameText>
+        <Button disabled={!inGame} inGame={inGame} onClick={() => handleGamePlay("Rock")}>
+          <Logo src={rock}  />
+        </Button>
 
-      <Button disabled={!inGame} inGame={inGame} onClick={() => handleGamePlay("Paper")}>
-        <Logo src={paper}  />
-      </Button>
+        <Button disabled={!inGame} inGame={inGame} onClick={() => handleGamePlay("Paper")}>
+          <Logo src={paper}  />
+        </Button>
 
-      <Button disabled={!inGame} inGame={inGame} onClick={() => handleGamePlay("Scissor")}>
-        <Logo src={scissor}  />
-      </Button>
+        <Button disabled={!inGame} inGame={inGame} onClick={() => handleGamePlay("Scissor")}>
+          <Logo src={scissor}  />
+        </Button>
 
-    </GamePlay>
+      </GamePlay>
 
     
-    {inGame ? 
+      {inGame ? 
 
-      	<Game /> 
-    	
-    : 
+          <Game /> 
+        
+      : 
 
-      <Main />
+        <Main />
 
-    }
+      }
     
-  </Container>
+    </Container>
   );
 }
 

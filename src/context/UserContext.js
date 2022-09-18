@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState} from 'react';
+import React, { createContext, useState} from 'react';
 
 import api from "../service/api"
 import config from "../config"
@@ -12,20 +12,20 @@ export const UserProvider = ({ children }) => {
     const [enterRoomIsVisible, setEnterRoomIsVisible] = useState(false);
 
     const [inGame, setInGame] = useState(false);
-    const [room, setRoom] = useState({});
+    const [room, setRoom] = useState(null);
   
     const [usuario, setUsuario] = useState({});
     const [isLoged, setIsLoged] = useState(false);
     const [cliente, setCliente] = useState();
     const [rooms, setRooms] = useState([]);
     const [isMyTurn, setIsMyTurn] = useState(false);
+    const [onMenu, setOnMenu] = useState(undefined);
+    const [chat, setChat] = useState();
 
     const [loginIsLoading, setLoginIsLoading] = useState(false);
 
     var client;
-
- 
-
+    
     const backToMenu = () => {
         setEnterRoomIsVisible(false);
         setCreateRoomIsVisible(false);
@@ -161,7 +161,11 @@ export const UserProvider = ({ children }) => {
                 showGameComponent,
                 menuIsVisible,
                 createRoomIsVisible,
-                enterRoomIsVisible
+                enterRoomIsVisible,
+                onMenu,
+                setOnMenu,
+                chat, 
+                setChat
             }}
         >
             {children}

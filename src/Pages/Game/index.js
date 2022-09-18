@@ -16,14 +16,14 @@ import {
 } from './styles';
 
 import UserContext from '../../context/UserContext';
+import { Chat } from '../../components/Chat';
 
 export const Game = () => {
 
-  const { room, usuario, isMyTurn, backToMenu, cliente } = useContext(UserContext);
+  const { room, usuario, isMyTurn, backToMenu, cliente, setRoom, chat } = useContext(UserContext);
 
   const [isP1Turn, setIsP1Turn] = useState();
   const [isP2Turn, setIsP2Turn] = useState();
-  const [amICreator, setAmICreater] = useState(room.creator.playerId === usuario.playerId ? true : false);
 
   useEffect(() => {
     setIsP1Turn(room.game.playerTurn ? room.game.playerTurn.playerId === room.game.player1.player.playerId ? true : false : false);
@@ -35,6 +35,7 @@ export const Game = () => {
     api.post(`/room/disconnect/${room.roomId}/${usuario.playerId}`)
     .then((response) => {
       cliente.unsubscribe(`/topic/game-progress/${room.roomId}`);
+      setRoom(null);
       backToMenu();
     })
     .catch((error) => {
@@ -93,6 +94,8 @@ export const Game = () => {
       </GameInfos>
 
     </Container>
+
+    <Chat chat={chat} usuario={usuario} roomId={room.roomId} />
      
     </>
       

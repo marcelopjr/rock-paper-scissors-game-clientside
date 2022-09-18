@@ -7,7 +7,7 @@ import UserContext from '../../context/UserContext';
 
 export const Main = () => {
 
-  const { isLoged } = useContext(UserContext);
+  const { isLoged, onMenu } = useContext(UserContext);
 
   return (
       <>
@@ -17,8 +17,7 @@ export const Main = () => {
         <MenuComponent /> 
 
         : 
-
-        <LoginComponent />
+        onMenu && <LoginComponent />
 
         }
       </>

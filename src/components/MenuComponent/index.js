@@ -32,6 +32,7 @@ export const MenuComponent = () => {
     menuIsVisible,
     createRoomIsVisible,
     enterRoomIsVisible,
+    setChat
   } = useContext(UserContext);
 
   const alertWin = (playerWin) => {
@@ -89,6 +90,19 @@ export const MenuComponent = () => {
       }
     }
   }
+
+  const onChatRoom = (data) => {
+    const dataBody = data.body;
+    if(dataBody.includes("GAMECLOSE")){
+      let gameId = dataBody.split("/");
+      cliente.unsubscribe(`/topic/game-progress/${gameId[1]}`);
+      cliente.unsubscribe(`/topic/chat-room/${gameId[1]}`);
+      backToMenu();
+    }else {
+      const chat = JSON.parse(data.body);
+      setChat(chat);
+    }
+  }
   
 
   const handleCreateRoom = (roomName) => {
@@ -96,6 +110,7 @@ export const MenuComponent = () => {
     .then((response) => {
         setRoom(response.data);
         cliente.subscribe(`/topic/game-progress/${response.data.roomId}`, onGameProgressRoom);
+        cliente.subscribe(`/topic/chat-room/${response.data.roomId}`, onChatRoom);
         showGameComponent();
     })
     .catch((error) => {
@@ -108,6 +123,7 @@ export const MenuComponent = () => {
     .then((response) => {
         setRoom(response.data);
         cliente.subscribe(`/topic/game-progress/${response.data.roomId}`, onGameProgressRoom);
+        cliente.subscribe(`/topic/chat-room/${response.data.roomId}`, onChatRoom);
         showGameComponent();
     })
     .catch((error) => {

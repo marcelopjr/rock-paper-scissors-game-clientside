@@ -2,19 +2,20 @@ import styled, { keyframes } from 'styled-components'
 
 export const moveDown = keyframes`
     0% {
-        transform: translateY(0px);
+        margin-top: 150px;
     }
     100% {
-        transform: translateY(300px);
+        margin-top: 350px;
     } 
 `
 
 export const moveUp = keyframes`
     0% {
-        transform: translateY(300px);
+        margin-top: 350px;
+        
     }
     100% {
-        transform: translateY(0px);
+        margin-top: 150px;
     } 
 `
 
@@ -50,13 +51,34 @@ export const Logo = styled.img`
 `;
 
 export const GamePlay = styled.div`
+    
     display: flex;
     flex-direction: row;
     
-    margin-top: 100px;
+    margin-top: 350px;
     margin-bottom: 50px;
 
-    animation: ${props => props.inGame ? moveDown : moveUp} 0.5s ease-out forwards;
+    animation: ${props => props.onMenu === undefined ? null : !props.onMenu || props.inGame ? moveDown : moveUp} 0.5s ease-out forwards;
+    
+    :hover {
+        cursor: pointer;
 
+        h3 {
+            display: flex;
+        }
+    }
+
+`
+
+export const PlayGameText = styled.h3`
+    z-index: 99;
+
+    position: absolute;
+
+    margin-top: 70px;
+    margin-left: 300px;
+    
+    display: none;
+    cursor: pointer;
 `
 
